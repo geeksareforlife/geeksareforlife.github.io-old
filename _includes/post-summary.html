@@ -1,0 +1,17 @@
+<div class="blog-post">
+	{% if include.big_title %}
+	<h2 class="blog-post-title font-weight-light">{{ include.post.title }}</h2>
+	{% else %}
+	<h3 class="font-weight-light mb-2">{{ include.post.title }}</h3>
+	{% endif %}
+	<p class="blog-post-meta">{{ include.post.date | date: "%B %e, %Y" }}</p>
+	<p>{{ include.post.excerpt }}</p>
+	<div class="row">
+    <div class="col-md-8 categories pt-2">
+      {% include categories.html categories=post.categories %}
+    </div>
+    <div class="col-md-4">
+      <p class="text-right mb-0"><a href="{{ include.post.url }}" class="btn btn-primary">Read more &nbsp;<i class="fas fa-arrow-circle-right"></i></a></p>
+    </div>
+	</div>
+</div>

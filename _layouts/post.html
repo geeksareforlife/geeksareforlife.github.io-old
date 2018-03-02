@@ -1,9 +1,21 @@
 ---
-layout: default
+layout: 2col
 ---
-<h1>{{ page.title }}</h1>
-<p class="meta">{{ page.date | date_to_string }}</p>
-
-<div class="post">
+<div class="blog-post">
+  <h2 class="blog-post-title font-weight-light">{{ page.title }}</h2>
+  <p class="blog-post-meta">{{ page.date | date: "%B %e, %Y" }}</p>
   {{ content }}
+</div>
+
+<div class="row">
+	<div class="col-md-6">
+    {% if page.previous %}
+    <p class="text-left"><a href="{{ page.previous.url }}" class="btn btn-primary"><i class="fas fa-arrow-circle-left"></i> &nbsp;{{ page.previous.title }}</a></p>
+    {% endif %}
+  </div>
+  <div class="col-md-6">
+    {% if page.next %}
+    <p class="text-right"><a href="{{ page.next.url }}" class="btn btn-primary">{{ page.next.title }} &nbsp;<i class="fas fa-arrow-circle-right"></i></a></p>
+    {% endif %}
+  </div>
 </div>

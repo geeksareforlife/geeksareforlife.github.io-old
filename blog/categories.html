@@ -1,0 +1,12 @@
+---
+layout: 2col
+title: Categories
+---
+{% for category in site.categories %}
+  <h1 id="{{ category[0] }}">{{ category[0] | capitalize }}</h3>
+    {% assign pages_list = category[1] %}
+    {% for post in pages_list %}
+      {% include post-summary.html post=post %}
+    {% endfor %}
+    {% assign pages_list = nil %}
+{% endfor %}

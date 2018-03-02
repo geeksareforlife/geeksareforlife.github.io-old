@@ -1,0 +1,30 @@
+{% assign url_parts = page.url | split: "/" %}
+
+{% if url_parts[1] == "about" %}
+  {% assign current_section = "about" %}
+{% elsif url_parts[1] == "blog" %}
+  {% assign current_section = "blog" %}
+{% else %}
+  {% assign current_section = "home" %}
+{% endif %}
+
+      <nav class="navbar navbar-expand-lg navbar-light bg-white px-0 mb-3">
+        <a class="navbar-brand" href="/"><img src="/assets/images/logo.png" width="82" height="55" alt="GeeksAreForLife" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item{% if current_section == "home" %} active{% endif %}">
+              <a class="nav-link" href="{{ site.baseurl }}{% link index.html %}">Home{% if current_section == "home" %} <span class="sr-only">(current)</span>{% endif %}</a>
+            </li>
+            <li class="nav-item{% if current_section == "about" %} active{% endif %}">
+              <a class="nav-link" href="{{ site.baseurl }}{% link about/index.html %}">About{% if current_section == "about" %} <span class="sr-only">(current)</span>{% endif %}</a>
+            </li>
+            <li class="nav-item{% if current_section == "blog" %} active{% endif %}">
+              <a class="nav-link" href="{{ site.baseurl }}{% link blog/index.html %}">Blog{% if current_section == "blog" %} <span class="sr-only">(current)</span>{% endif %}</a>
+            </li>
+          </ul>
+        </div>
+      </nav>

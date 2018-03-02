@@ -1,11 +1,49 @@
 ---
-layout: default
+layout: 2col
 title: Blog
 ---
-	<h1>{{ page.title }}</h1>
-	<ul class="posts">
+<h1>{{ page.title }}</h1>
 
-	  {% for post in site.posts %}
-	    <li><span>{{ post.date | date_to_string }}</span> » <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a></li>
-	  {% endfor %}
-	</ul>
+{% for post in paginator.posts %}
+  {% include post-summary.html post=post %}
+{% endfor %}
+
+{% if paginator.total_pages > 1 %}
+<nav aria-label="Page navigation">
+	<ul class="pagination justify-content-center">
+  {% if paginator.previous_page %}
+    <li class="page-item">
+      <a class="page-link" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}" aria-label="Previous">
+        <span aria-hidden="true"><i class="fal fa-angle-double-left"></i></span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+  {% else %}
+    <li class="page-item disabled">
+      <span class="page-link"><i class="fal fa-angle-double-left"></i></span>
+    </li>
+  {% endif %}
+
+  {% for page in (1..paginator.total_pages) %}
+    {% if page == 1 %}
+      <li class="page-item{% if page == paginator.page %} active{% endif %}"><a class="page-link" href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">{{ page }}</a></li>
+    {% else %}
+      <li class="page-item{% if page == paginator.page %} active{% endif %}"><a class="page-link" href="{{ site.paginate_path | prepend: site.baseurl | replace: '//', '/' | replace: ':num', page }}">{{ page }}</a></li>
+    {% endif %}
+  {% endfor %}
+
+  {% if paginator.next_page %}
+    <li class="page-item">
+      <a class="page-link" href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}" aria-label="Next">
+        <span aria-hidden="true"><i class="fal fa-angle-double-right"></i></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  {% else %}
+    <li class="page-item disabled">
+      <span class="page-link"><i class="fal fa-angle-double-right"></i></span>
+    </li>
+  {% endif %}
+  </ul>
+</nav>
+{% endif %}

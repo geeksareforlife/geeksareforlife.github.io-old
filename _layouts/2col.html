@@ -1,0 +1,35 @@
+---
+layout: default
+---
+<div class="row">
+  <div class="col-md-9 blog-main">
+    {{ content }}
+  </div>
+  <aside class="col-md-3 blog-sidebar">
+  	<div class="p-3">
+      <h4>Categories</h4>
+      <ol class="list-unstyled mb-0">
+      {% assign categories_list = site.categories | sort %}
+        {% if categories_list.first[0] == null %}
+          {% for category in categories_list %}
+            <li><a href="/blog/categories.html#{{ category }}">{{ category | capitalize }} ({{ site.tags[category].size }})</a></li>
+          {% endfor %}
+        {% else %}
+          {% for category in categories_list %}
+            <li><a href="/blog/categories.html#{{ category[0] | downcase }}">{{ category[0] | capitalize }} ({{ category[1].size }})</a></li>
+          {% endfor %}
+        {% endif %}
+      {% assign categories_list = nil %}
+      </ol>
+    </div>
+
+    <div class="p-3">
+      <h4>Elsewhere</h4>
+      <ol class="list-unstyled">
+        <li><a href="https://www.github.com/geeksareforlife/"><i class="fab fa-github"></i> GitHub</a></li>
+        <li><a href="https://www.twitter.com/geeksareforlife/"><i class="fab fa-twitter"></i> Twitter</a></li>
+      </ol>
+    </div>
+  </aside>
+</div>
+  

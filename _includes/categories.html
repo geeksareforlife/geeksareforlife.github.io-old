@@ -1,0 +1,5 @@
+<ul>
+	{% for category in include.categories %}
+	<li><a href="/blog/categories.html#{{ category }}">{{ category | capitalize }}</a></li>
+	{% endfor %}
+</ul>
