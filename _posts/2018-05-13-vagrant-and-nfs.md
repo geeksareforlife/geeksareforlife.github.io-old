@@ -130,3 +130,28 @@ service nfs-common start
 ```
 
 For some unknown reason, setting this service to start on boot just didn't work!
+
+### Network doesn't exist
+
+This issue is definitely a problem with my setup - the private network that Virtualbox creates simply doesn't come up properly, and I get all sorts of errors, from the NFS not working, or the webserver not respondeding.
+
+If you are not aware, when you set up private networking in your vagrantfile, Virtualbox creates a virtual network interface on your host machine that is assigned the gatewy address of the IP address you choose. For example, my vagrant box is set up to use `192.18.32.36` and Virtualbox creates an interface named `vboxnet0` with the address `192.168.32.1` (the interface's name may change depending on how many boxes you are using).
+
+At least, that is what is meant to happen! This has worked for me for years, but something broke a few days before I migrated to NFS, which is why I include it here even though it is not really related. Even with this error, my vagrant machine when using NFS would `up` seemingly without an issue. It would only be when I tried to access the webserver that I would notice it. With HFS enabled, the `up` fails as it can't connect to NFS on the guest machine.
+
+No amount of removing/upgrading Virtualbox or Vagrant seemed to fix this issue, and I was unable to find anything useful on the web. So unfortunately I have resorted to another hacky hack. Once Virtualbox has tried to create the interface, you will see it when running `ip addr` but it will show as `DOWN`:
+
+```
+vboxnet0: <BROADCAST,MULTICAST,DOWN> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+```
+
+Additionally, it won't have an IP address. You can find out what IP address it should have in Virtualbox, under "Host Network Manager".
+
+Then, run the following commands as root (changing `vboxnet0` and `192.168.32.1/24` to match your setup:
+
+```
+ip link set vboxnet0 up
+ip addr add 192.168.32.1/24 dev vboxnet0
+```
+
+As this problem is intermittent, and probably related to the fact that I change physical networks frequently, I have a bash script set up with these commands in my home directory. I have found that I can run that whilst `vagrant up` is running and it fixes the issue.  The issue normally remains fixed until I reboot the machine.
